@@ -1,51 +1,50 @@
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
-public class FailingSubjectList {
+public class GradeCalculator {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        final double PASSING_MARKS = 30.0;
-
-        int numSubjects;
-        List<String> failingSubjects = new ArrayList<>();
-        int totalMarks = 0;
-        double averagePercentage;
-
-        // Input number of subjects
         System.out.print("Enter the number of subjects: ");
-        numSubjects = scanner.nextInt();
+        int numSubjects = scanner.nextInt();
 
-        // Input marks for each subject and calculate total marks
-        for (int i = 1; i <= numSubjects; i++) {
-            System.out.print("Enter marks obtained in subject " + i + " (out of 100): ");
-            int marks = scanner.nextInt();
-            totalMarks += marks;
+        String[] subjectNames = new String[numSubjects];
+        int[] marks = new int[numSubjects];
 
-            // Check if the subject is failing
-            if (marks < PASSING_MARKS) {
-                failingSubjects.add("Subject " + i);
-            }
+        for (int i = 0; i < numSubjects; i++) {
+            System.out.print("Enter subject name " + (i + 1) + ": ");
+            subjectNames[i] = scanner.next();
+
+            System.out.print("Enter marks for " + subjectNames[i] + ": ");
+            marks[i] = scanner.nextInt();
         }
 
-        // Calculate average percentage
-        averagePercentage = (double) totalMarks / numSubjects;
+        int totalMarks = 0;
+        for (int mark : marks) {
+            totalMarks += mark;
+        }
 
-        // Display results
-        System.out.println("\nTotal Marks: " + totalMarks);
-        System.out.println("Average Percentage: " + averagePercentage);
+        double averagePercentage = (double) totalMarks / numSubjects;
 
-        if (!failingSubjects.isEmpty()) {
-            System.out.println("Failing Subjects:");
-            for (String subject : failingSubjects) {
-                System.out.println(subject);
-            }
+        String grade;
+        if (averagePercentage >= 90) {
+            grade = "A";
+        } else if (averagePercentage >= 80) {
+            grade = "B";
+        } else if (averagePercentage >= 70) {
+            grade = "C";
+        } else if (averagePercentage >= 60) {
+            grade = "D";
         } else {
-            System.out.println("No subject is failing.");
+            grade = "F";
         }
 
-        // Close scanner
-        scanner.close();
+        System.out.println("Subject Names and Marks:");
+        for (int i = 0; i < numSubjects; i++) {
+            System.out.println(subjectNames[i] + ": " + marks[i]);
+        }
+
+        System.out.println("Total Marks: " + totalMarks);
+        System.out.println("Average Percentage: " + String.format("%.2f", averagePercentage) + "%");
+        System.out.println("Grade: " + grade);
     }
 }
